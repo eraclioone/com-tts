@@ -3,25 +3,26 @@ import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognitio
 
 import translate from "translate";
 import "./App.css";
-import { ChakraProvider, Box, Flex, HStack, VStack, Stack, Button, Container, Image, Heading, Select, Text, Checkbox, Card, CardBody, CardFooter, CardHeader, Divider, Center } from '@chakra-ui/react'
+import { ChakraProvider, Box, HStack, VStack, Button, Image, Heading, Select, Text, Card, CardBody, CardFooter, CardHeader, Divider, Center } from '@chakra-ui/react'
 function App() {
     const { transcript, resetTranscript } = useSpeechRecognition();
     const [isListening, setIsListening] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState("en-US");
     const [transatedText, setTranslatedText] = useState('');
 
-    const [continuous, setContinuous] = useState(true);
+    // const [continuous, setContinuous] = useState(true);
 
     const handleDropdownChange = (event) => {
         setSelectedLanguage(event.target.value);
     };
 
     const handleListening = () => {
-        console.log(continuous)
+        // console.log(continuous);
+        resetTranscript();
         setIsListening(true);
-        SpeechRecognition.abortListening();
+        // SpeechRecognition.abortListening();
         SpeechRecognition.startListening({
-            continuous: continuous,
+            continuous: false,
         });
     };
 
@@ -43,7 +44,7 @@ function App() {
                 speech.lang = selectedLanguage;
                 speech.text = text;
                 window.speechSynthesis.speak(speech);
-                resetTranscript();
+                
             })
             .catch((err) => {
                 console.log(err);
